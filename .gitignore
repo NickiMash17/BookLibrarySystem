@@ -1,0 +1,54 @@
+## .NET ##
+**/bin/
+**/obj/
+*.user
+*.suo
+*.userprefs
+*.cache
+*.vs/
+*.swp
+*~
+*.db
+*.sqlite
+*.DS_Store
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+
+# NuGet Packages
+*.nupkg
+**/packages/*
+!**/packages/repositories.config
+
+# Visual Studio cache/options directory
+.vs/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Local History for Visual Studio
+.history/
+
+# Rider IDE
+.idea/
+
+# User-specific files
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
