@@ -20,6 +20,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
             return await _context.Books
+                .AsNoTracking()
                 .Include(b => b.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(bc => bc.Category)
@@ -30,6 +31,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<Book?> GetBookByIdAsync(int id)
         {
             return await _context.Books
+                .AsNoTracking()
                 .Include(b => b.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(bc => bc.Category)
@@ -40,6 +42,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<IEnumerable<Book>> GetBooksByAuthorAsync(int authorId)
         {
             return await _context.Books
+                .AsNoTracking()
                 .Include(b => b.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(bc => bc.Category)
@@ -51,6 +54,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<IEnumerable<Book>> GetBooksByCategoryAsync(int categoryId)
         {
             return await _context.Books
+                .AsNoTracking()
                 .Include(b => b.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(bc => bc.Category)
@@ -90,6 +94,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<IEnumerable<Book>> SearchBooksAsync(string searchTerm)
         {
             return await _context.Books
+                .AsNoTracking()
                 .Include(b => b.Author)
                 .Include(b => b.BookCategories)
                     .ThenInclude(bc => bc.Category)
@@ -103,6 +108,7 @@ namespace BookLibrarySystem.Repositories
         public async Task<Dictionary<int, double>> GetBooksWithAverageRatingAsync()
         {
             return await _context.Books
+                .AsNoTracking()
                 .Where(b => b.Reviews.Any())
                 .Select(b => new
                 {
@@ -110,6 +116,91 @@ namespace BookLibrarySystem.Repositories
                     AverageRating = b.Reviews.Average(r => r.Rating)
                 })
                 .ToDictionaryAsync(b => b.BookId, b => b.AverageRating);
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksByYearAsync(int year)
+        {
+            return await _context.Books
+                .AsNoTracking()
+                .Where(b => b.PublishedDate.Year == year)
+                .ToListAsync();
+        }
+
+        public async Task<PagedResult<Book>> GetBooksPagedAsync(int pageNumber, int pageSize)
+        {
+            var query = _context.Books
+                .AsNoTracking()
+                .Include(b => b.Author)
+                .Include(b => b.BookCategories).ThenInclude(bc => bc.Category)
+                .Include(b => b.Reviews);
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PagedResult<Book>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+
+        public async Task<PagedResult<Book>> GetBooksByAuthorPagedAsync(int authorId, int pageNumber, int pageSize)
+        {
+            var query = _context.Books
+                .AsNoTracking()
+                .Include(b => b.Author)
+                .Include(b => b.BookCategories).ThenInclude(bc => bc.Category)
+                .Include(b => b.Reviews)
+                .Where(b => b.AuthorId == authorId);
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PagedResult<Book>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+
+        public async Task<PagedResult<Book>> GetBooksByCategoryPagedAsync(int categoryId, int pageNumber, int pageSize)
+        {
+            var query = _context.Books
+                .AsNoTracking()
+                .Include(b => b.Author)
+                .Include(b => b.BookCategories).ThenInclude(bc => bc.Category)
+                .Include(b => b.Reviews)
+                .Where(b => b.BookCategories.Any(bc => bc.CategoryId == categoryId));
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PagedResult<Book>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+
+        public async Task<PagedResult<Book>> SearchBooksPagedAsync(string searchTerm, int pageNumber, int pageSize)
+        {
+            var query = _context.Books
+                .AsNoTracking()
+                .Include(b => b.Author)
+                .Include(b => b.BookCategories).ThenInclude(bc => bc.Category)
+                .Where(b => b.Title.Contains(searchTerm) || 
+                            (b.Description != null && b.Description.Contains(searchTerm)) || 
+                            (b.Author != null && (b.Author.FirstName.Contains(searchTerm) || 
+                                                b.Author.LastName.Contains(searchTerm))));
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return new PagedResult<Book>
+            {
+                Items = items,
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
         }
     }
 }

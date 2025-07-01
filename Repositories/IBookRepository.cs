@@ -15,5 +15,10 @@ namespace BookLibrarySystem.Repositories
         Task<bool> DeleteBookAsync(int id);
         Task<IEnumerable<Book>> SearchBooksAsync(string searchTerm);
         Task<Dictionary<int, double>> GetBooksWithAverageRatingAsync();
+        Task<IEnumerable<Book>> GetBooksByYearAsync(int year);
+        Task<PagedResult<Book>> GetBooksPagedAsync(int pageNumber, int pageSize);
+        Task<PagedResult<Book>> GetBooksByAuthorPagedAsync(int authorId, int pageNumber, int pageSize);
+        Task<PagedResult<Book>> GetBooksByCategoryPagedAsync(int categoryId, int pageNumber, int pageSize);
+        Task<PagedResult<Book>> SearchBooksPagedAsync(string searchTerm, int pageNumber, int pageSize);
     }
 }

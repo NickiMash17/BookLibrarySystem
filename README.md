@@ -10,7 +10,7 @@
 
 </div>
 
-> A modern, feature-rich ASP.NET Core Web API for managing a book library with comprehensive book, author, category, and review management capabilities.
+An advanced ASP.NET Core Web API for managing a book library, demonstrating best practices in routing, middleware, caching, authorization, logging, documentation, testing, and performance.
 
 ## ✨ Features
 
@@ -21,6 +21,14 @@
 - 🔍 **Advanced Search** - Find books by title, author, or description using LINQ
 - 📊 **Rating Analytics** - Calculate average ratings across books
 - 📘 **API Documentation** - Auto-generated Swagger/OpenAPI documentation
+- **Advanced Routing**: Attribute routing, route constraints, and custom routes.
+- **Middleware & Filters**: Custom request logging middleware and action logging filter.
+- **Caching**: Response caching, in-memory caching, and distributed Redis caching.
+- **Role-Based Authorization**: Restrict endpoints to roles (e.g., Admin for create/update/delete).
+- **Logging & Monitoring**: Serilog integration, health check endpoint (`/health`).
+- **Automated Testing**: xUnit and Moq for unit testing controllers and repositories.
+- **Performance Tuning**: AsNoTracking, pagination, and profiling guidance.
+- **Pagination**: All major endpoints support paginated responses with metadata (total count, page, size, total pages).
 
 ## 🏗️ Architecture
 

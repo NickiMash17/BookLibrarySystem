@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,13 +16,13 @@ namespace BookLibrarySystem.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Biography = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Nationality = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Biography = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    Nationality = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,10 +33,10 @@ namespace BookLibrarySystem.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,19 +47,19 @@ namespace BookLibrarySystem.Migrations
                 name: "Books",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    PublishedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ISBN = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    PageCount = table.Column<int>(type: "int", nullable: false),
-                    Publisher = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    AuthorId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    PublishedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ISBN = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
+                    Price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    PageCount = table.Column<int>(type: "integer", nullable: false),
+                    Publisher = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Language = table.Column<string>(type: "text", nullable: true),
+                    CoverImageUrl = table.Column<string>(type: "text", nullable: true),
+                    IsAvailable = table.Column<bool>(type: "boolean", nullable: false),
+                    AuthorId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,8 +76,8 @@ namespace BookLibrarySystem.Migrations
                 name: "BookCategory",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    BookId = table.Column<int>(type: "integer", nullable: false),
+                    CategoryId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,14 +100,14 @@ namespace BookLibrarySystem.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rating = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ReviewDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReviewerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ReviewerEmail = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    BookId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Rating = table.Column<int>(type: "integer", nullable: false),
+                    Comment = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    ReviewDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReviewerName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    ReviewerEmail = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    BookId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
