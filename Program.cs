@@ -32,7 +32,7 @@ builder.Services.AddHealthChecks();
 
 // Configure DbContext
 builder.Services.AddDbContext<BookLibraryContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add Swagger
 var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
